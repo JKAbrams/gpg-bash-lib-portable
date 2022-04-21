@@ -8,23 +8,23 @@ your_script_begin() {
    echo "$FUNCNAME: ..."
 }
 
-## The actual verification function. Let gpg-bash-lib do the heavy lifting.
+## The actual verification function. Let gpg-bash do the heavy lifting.
 verification() {
    echo "$FUNCNAME: BEGIN"
 
-   ## Set a few variables, that gpg-bash-lib will read.
+   ## Set a few variables, that gpg-bash will read.
    gpg_bash_lib_input_key_import_dir="examples/pub-keys.d"
    gpg_bash_lib_input_file_name_enforce="true"
    gpg_bash_lib_input_cleanup="true"
    gpg_bash_lib_input_data_file="test/test-file"
    gpg_bash_lib_input_sig_file="test/test-file.asc"
 
-   ## Source gpg-bash-lib, so functions provided by it become available to your
+   ## Source gpg-bash, so functions provided by it become available to your
    ## script. You could also do the sourcing at any earlier point at your
    ## convenience.
    source "gpg-bash"
 
-   ## Run gpg-bash-lib to let it do the verification for you.
+   ## Run gpg-bash to let it do the verification for you.
    gpg_bash_lib_function_main_verify
 
    echo "$FUNCNAME: END"
@@ -33,7 +33,7 @@ verification() {
 your_script_output() {
    echo "$FUNCNAME: BEGIN"
 
-   ## This is an example on how you can access variables, that gpg-bash-lib has
+   ## This is an example on how you can access variables, that gpg-bash has
    ## set for you. There are more variables available. Those are listed in
    ## the documentation.
 
