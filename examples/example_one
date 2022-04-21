@@ -13,16 +13,16 @@ verification() {
    echo "$FUNCNAME: BEGIN"
 
    ## Set a few variables, that gpg-bash will read.
-   gpg_bash_lib_input_key_import_dir="examples/pub-keys.d"
+   gpg_bash_lib_input_key_import_dir="pub-keys.d"
    gpg_bash_lib_input_file_name_enforce="true"
    gpg_bash_lib_input_cleanup="true"
-   gpg_bash_lib_input_data_file="test/test-file"
-   gpg_bash_lib_input_sig_file="test/test-file.asc"
+   gpg_bash_lib_input_data_file="../test/test-file"
+   gpg_bash_lib_input_sig_file="../test/test-file.asc"
 
    ## Source gpg-bash, so functions provided by it become available to your
    ## script. You could also do the sourcing at any earlier point at your
    ## convenience.
-   source "gpg-bash"
+   source "../gpg-bash"
 
    ## Run gpg-bash to let it do the verification for you.
    gpg_bash_lib_function_main_verify
