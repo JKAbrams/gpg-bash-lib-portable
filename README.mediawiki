@@ -1,3 +1,9 @@
+= About this portable version =
+This repo contains a portable (single file bash script) version of [Kicksecure/gpg-bash-lib](https://github.com/Kicksecure/gpg-bash-lib),
+the intention is to make it easier to include this script inside other projects.
+
+All contributions outside of this goal should go to the upstream Kicksecure version and all credits goes to the Kicksecure developers.
+
 = Why =
 
 Writing bash scripts that do file verification using gpg that really is secure
