@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
-## See the file COPYING for copying conditions.
+## See the file LICENCE for copying conditions.
 
 gpg_bash_lib_function_error_handler() {
    gpg_bash_lib_output_error_handler_last_failed_exit_code="$?"
