@@ -1,17 +1,18 @@
 #!/bin/bash
 
 ## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
-## See the file LICENSE for copying conditions.
+## See the file LICENCE for copying conditions.
 
 set -e
 set -o pipefail
 set -o errtrace
 
-gpg_bash_lib_mydir="$( cd "$( dirname "$0" )" && pwd )"
-cd "$gpg_bash_lib_mydir"
-cd ../../../../
 
-source "./usr/libexec/gpg-bash-lib/source_all"
+
+### Verification:
+
+
+source "./gpg-bash"
 
 trap "gpg_bash_lib_function_error_handler" ERR
 set +e
@@ -166,3 +167,106 @@ gpg_bash_lib_function_unit_test_testrun_1
 gpg_bash_lib_function_unit_test_testrun_2
 gpg_bash_lib_function_unit_test_testrun_3
 gpg_bash_lib_function_unit_test_testrun_4
+
+
+
+### Traps and shopts:
+
+
+
+## {{{ test functions
+
+gpg_bash_lib_function_unit_test_check_error_handler() {
+   gpg_bash_lib_unit_test_current_trap="$(trap -p ERR)"
+   true "gpg_bash_lib_unit_test_existing_trap_original: $gpg_bash_lib_unit_test_existing_trap_original"
+   true "gpg_bash_lib_unit_test_existing_trap_by_gpg_bash_lib: $gpg_bash_lib_unit_test_existing_trap_by_gpg_bash_lib"
+   true "gpg_bash_lib_unit_test_current_trap   : $gpg_bash_lib_unit_test_current_trap"
+   if [ ! "$gpg_bash_lib_unit_test_existing_trap_original" = "$gpg_bash_lib_unit_test_current_trap" ]; then
+      echo "ERROR #1 !" >&2
+      exit 1
+   fi
+   if [ ! "$gpg_bash_lib_unit_test_existing_trap_by_gpg_bash_lib" = "$gpg_bash_lib_unit_test_current_trap" ]; then
+      echo "ERROR #2 !" >&2
+      exit 1
+   fi
+}
+
+## }}}
+
+## {{{ setup
+
+gpg_bash_lib_function_unit_test_error_handler() {
+   echo "$FUNCNAME ERROR #0 !" >&2
+   exit 1
+}
+
+trap "gpg_bash_lib_function_unit_test_error_handler" ERR
+gpg_bash_lib_unit_test_existing_trap_original="$(trap -p ERR)"
+
+set -o errtrace
+
+## }}}
+
+## {{{ test 1
+
+# Debug:
+pwd
+
+source "./gpg-bash"
+
+trap "gpg_bash_lib_function_unit_test_error_handler" ERR
+gpg_bash_lib_unit_test_existing_trap_by_gpg_bash_lib="$(trap -p ERR)"
+
+gpg_bash_lib_function_init
+
+gpg_bash_lib_function_deinit
+
+gpg_bash_lib_function_unit_test_check_error_handler
+
+## pipefail was not set before, it should not be set now.
+
+if test -o pipefail ; then
+   echo "ERROR #4!" >&2
+   exit 1
+fi
+
+## }}}
+
+## {{{ test 2
+
+set -o pipefail
+set -o errtrace
+
+source "./gpg-bash"
+
+gpg_bash_lib_function_init
+
+gpg_bash_lib_function_deinit
+
+gpg_bash_lib_unit_test_current_trap="$(trap -p ERR)"
+
+gpg_bash_lib_function_unit_test_check_error_handler
+
+## errtrace, pipefail was set before, it should be set now.
+
+if ! test -o errtrace ; then
+   echo "ERROR #5 !" >&2
+   exit 1
+fi
+
+if ! test -o pipefail ; then
+   echo "ERROR #6 !" >&2
+   exit 1
+fi
+
+## }}}
+
+gpg_bash_lib_function_unit_test_custom_error_handler() {
+   true "$FUNCNAME: functional"
+}
+
+gpg_bash_lib_input_error_handler_extra="gpg_bash_lib_function_unit_test_custom_error_handler ; return 0"
+
+gpg_bash_lib_function_error_handler
+
+true "SUCCESS!"

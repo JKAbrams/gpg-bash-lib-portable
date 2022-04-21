@@ -3,6 +3,43 @@
 ## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file LICENCE for copying conditions.
 
+
+
+### Helper:
+
+
+gpg_bash_lib_function_displaytime_helper() {
+   trap "gpg_bash_lib_function_error_handler" ERR
+   if [ "$1" = "1" ]; then
+      echo " "
+   fi
+}
+
+gpg_bash_lib_function_displaytime() {
+   trap "gpg_bash_lib_function_error_handler" ERR
+   ## Thanks to Stéphane Gimenez!
+   ## http://unix.stackexchange.com/a/27014/49297
+   ## Modified by Patrick Schleizer.
+   local T D H M S X
+   T="$1"
+   D="$((T/60/60/24))"
+   H="$((T/60/60%24))"
+   M="$((T/60%60))"
+   S="$((T%60))"
+   X="0"
+   [[ "$D" -gt "0" ]] && printf "$(gpg_bash_lib_function_displaytime_helper "$X")%d days" "$D" && X="1" || true
+   [[ "$H" -gt "0" ]] && printf "$(gpg_bash_lib_function_displaytime_helper "$X")%d hours" "$H" && X="1" || true
+   [[ "$M" -gt "0" ]] && printf "$(gpg_bash_lib_function_displaytime_helper "$X")%d minutes" "$M" && X="1" || true
+   [[ "$S" -gt "0" ]] && printf "$(gpg_bash_lib_function_displaytime_helper "$X")%d seconds" "$S" && X="1" || true
+   #[[ "$D" -gt "0" || "$H" -gt "0" || "$M" -gt "0" || "$S" -gt "0" ]] && printf 'and '
+   true
+}
+
+
+
+### Common:
+
+
 gpg_bash_lib_function_error_handler() {
    gpg_bash_lib_output_error_handler_last_failed_exit_code="$?"
    gpg_bash_lib_output_error_handler_message="$0 script bug
