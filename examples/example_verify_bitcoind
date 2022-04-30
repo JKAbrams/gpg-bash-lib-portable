@@ -38,7 +38,7 @@ download() {
             echo "  Could not download $1"
             exit 1
         else
-            echo "  Downloaded $2/$2"
+            echo "  Downloaded $2/$3"
         fi
     else
         echo "  Using existing $2/$3"
@@ -126,7 +126,7 @@ verify_signature() {
     # printf "%u\n$2" $1
     # echo "\$2=" "$2"
     # echo "\$tmp_signature_file=$tmp_signature_file"
-    # echo "$2" > $tmp_signature_file
+    echo "$2" > $tmp_signature_file
     # cat $tmp_signature_file
 
     ## Set up gpg-bash
