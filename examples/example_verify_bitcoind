@@ -140,7 +140,7 @@ verify_signature() {
     gpg_bash_lib_input_key_import_dir=$bitcoind_keys_folder
     gpg_bash_lib_input_file_name_enforce="false"
     gpg_bash_lib_input_cleanup="true"
-    gpg_bash_lib_input_maximum_age_in_seconds=31104000    # We accept signature up to one year after signing, to validate older releases increase this value accordingly.
+    gpg_bash_lib_input_maximum_age_in_seconds=$bitcoind_maximum_age_in_seconds
     gpg_bash_lib_input_data_file=$bitcoind_SHA256_file    # We are actually not verifying the archive but the only the SHA256SUMS file here
     gpg_bash_lib_input_sig_file=$tmp_signature_file
 
