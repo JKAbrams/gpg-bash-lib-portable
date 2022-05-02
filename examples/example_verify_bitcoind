@@ -4,13 +4,14 @@
 
 # This is an example showing how gpg-bash can be used to validate the signatures of the Bitcoin Core source code.
 # This script assumes that you have already downloaded trusted public keys and saved them to $bitcoind_keys_folder
-# getting trustworthy gpg keys are thus outside the scope of this script.
+# getting trustworthy gpg keys are thus outside the scope of this script (for testing purposes some keys are provided as
+# a convenience but you should find independent ways of verifying them, dont trust the keys included here blindly).
 # You can specify keys that you trust (that must verify) and in addition to these specify a number of additional keys
-# that must also verify.
+# that must also verify. You can also include keys
 
 # Settings
-bitcoind_version="22.0"
-bitcoind_folder="bitcoind"
+bitcoind_version="23.0"
+bitcoind_folder="bitcoind-${bitcoind_version}"
 bitcoind_keys_folder="bitcoind-pub-keys"
 bitcoind_data_file="${bitcoind_folder}/bitcoin-${bitcoind_version}-x86_64-linux-gnu.tar.gz"
 bitcoind_SHA256_file="${bitcoind_folder}/SHA256SUMS"
