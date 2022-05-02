@@ -43,23 +43,20 @@ you are advised to use the --status-fd messages."</blockquote>
 * bash
 
 = Installation =
-<pre>
-sudo make install
-</pre>
-
-Or see [https://github.com/Whonix/gpg-bash-lib/blob/master/README_generic.md <tt>README_generic.md</tt>].
+No installation required.
 
 = Usage =
 
 == Practical ==
 
 === Examples ===
-See [https://github.com/Whonix/gpg-bash-lib/blob/master/usr/share/gpg-bash-lib/examples/ <tt>/usr/share/gpg-bash-lib/examples/</tt>] folder.
+See [https://github.com/JKAbrams/gpg-bash-lib-portable/master/examples/ <tt>examples/</tt>] folder.
+
 
 === Mini Demo ===
-After installation, if you would run the following command.
+Run the following command.
 
-[https://github.com/Whonix/gpg-bash-lib/blob/master/usr/share/gpg-bash-lib/examples/one <tt>/usr/share/gpg-bash-lib/examples/one</tt>]
+[https://github.com/JKAbrams/gpg-bash-lib-portable/master/examples/example_one <tt>examples/example_one</tt>]
 
 You would see the following output.
 
@@ -541,9 +538,9 @@ This has the advantage, that your script can still react to any eventual trap's 
 
 = Known Issues =
 
-* Multiple signatures in a single signature file are not well supported yet.
+* Multiple signatures in a single signature file are not well supported yet, but an example how bash-gpg can be used for verifying a source code package (Bitcoin Core) signed by multiple keys can be found in the examples
 * When there are multiple signatures in a single signature file, the signature will be accepted as valid, when at least one key from the signing key folder (see variable <tt>gpg_bash_lib_input_key_import_dir</tt> above) made a good signature. Feedback welcome on situations where there are multiple mixed good and bad signatures.
-* [https://phabricator.whonix.org/maniphest/?statuses=open%2Creview&allProjects=PHID-PROJ-y7ggndpa2rbgbboyhoqp#R Issue Tracker]
+* [https://phabricator.whonix.org/maniphest/?statuses=open%2Creview&allProjects=PHID-PROJ-y7ggndpa2rbgbboyhoqp#R Upstream Issue Tracker]
 
 = Alternatives =
 
@@ -552,9 +549,9 @@ This has the advantage, that your script can still react to any eventual trap's 
 
 = Forks, Patches, Testers, Comments, etc. =
 
-Welcome.
+Please contribute to the upstream version.
 
-= Author =
+= Upstream Author =
 
 * Patrick Schleizer
 * e-mail: adrelanos@whonix.org
