@@ -156,8 +156,8 @@ We can check who has signed what keys.
 
 The first key yields no results so we will skip that one for now, but the second key does.
 
-Legend:
-! verified
+#### Legend
+! = verified
 
 
 ### #1 (unknown)
@@ -635,6 +635,8 @@ Parsing all this data results in the following graph which gives some hints as t
 
 From this information we can now make some determinations as to which keys to trust.
 
+_Please note, this is an example. You will have to make your own determination as to what keys to trust._
+
 **As keys that must verify lets pick:**
 
 |   # | Key fingerprint                            | Name                     | Note           | Expired |
@@ -686,7 +688,7 @@ From this information we can now make some determinations as to which keys to tr
     gpg --armor --export 74E2DEF5D77260B98BC19438099BAD163C70FBFA > bitcoind-pub-keys/74E2DEF5D77260B98BC19438099BAD163C70FBFA.gpg
 
 
-## Find alternative sites for verification
+## Find alternative key sources for verification
 
 TODO
 

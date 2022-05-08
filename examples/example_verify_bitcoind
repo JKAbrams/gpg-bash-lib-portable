@@ -12,7 +12,7 @@
 # Settings
 bitcoind_version='23.0'
 bitcoind_folder="bitcoind-${bitcoind_version}"
-bitcoind_keys_folder="bitcoind-pub-keys"
+bitcoind_keys_folder='bitcoind-pub-keys'
 bitcoind_SHA256_file="${bitcoind_folder}/SHA256SUMS"
 bitcoind_sig_file="${bitcoind_folder}/SHA256SUMS.asc"
 
