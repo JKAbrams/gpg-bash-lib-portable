@@ -58,7 +58,7 @@ download() {
 
 ## Download source code
 bitcoind_begin() {
-    echo "$FUNCNAME: BEGIN"
+    echo "${FUNCNAME[0]}: BEGIN"
 
     # Create folder for the bitcoind files
     mkdir --parents $bitcoind_folder
@@ -94,13 +94,13 @@ bitcoind_begin() {
     ## Include gpg-bash
     source "../gpg-bash"
 
-    echo "$FUNCNAME: END"
+    echo "${FUNCNAME[0]}: END"
 }
 
 
 ## Split the .asc file into the individual signatures and verify each
 bitcoind_verification() {
-    echo "$FUNCNAME: BEGIN"
+    echo "${FUNCNAME[0]}: BEGIN"
 
     sig=""
     started=true
@@ -123,12 +123,12 @@ bitcoind_verification() {
         fi
     done < $bitcoind_sig_file
 
-    echo "$FUNCNAME: END"
+    echo "${FUNCNAME[0]}: END"
 }
 
 
 verify_signature() {
-    echo "$FUNCNAME: BEGIN"
+    echo "${FUNCNAME[0]}: BEGIN"
 
     # Save the output in a temporary signature file containing only one signature
     tmp_signature_file=$(mktemp /tmp/verify_bitcoind.XXXXXX)
@@ -148,12 +148,12 @@ verify_signature() {
 
     bitcoind_check_output
 
-    echo "$FUNCNAME: END"
+    echo "${FUNCNAME[0]}: END"
 }
 
 
 bitcoind_check_output() {
-    echo "$FUNCNAME: BEGIN"
+    echo "${FUNCNAME[0]}: BEGIN"
 
     # Check if it is among our untrusted keys, if it is we just move on and dont count it either towards a failure or success:
     if [[ " ${bitcoind_untrusted_key_hashes[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
@@ -193,7 +193,7 @@ bitcoind_check_output() {
         fi
     fi
     total=$((total+1))
-    echo "$FUNCNAME: END"
+    echo "${FUNCNAME[0]}: END"
 }
 
 
