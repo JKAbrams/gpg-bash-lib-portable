@@ -139,6 +139,7 @@ bitcoind_verification() {
 }
 
 
+# shellcheck disable=SC2034
 verify_signature() {
     echo "${FUNCNAME[0]}: BEGIN"
 
@@ -168,6 +169,7 @@ bitcoind_check_output() {
     echo "${FUNCNAME[0]}: BEGIN"
 
     # Check if it is among our untrusted keys, if it is we just move on and dont count it either towards a failure or success:
+    # shellcheck disable=SC2154
     if containsElement "$gpg_bash_lib_output_fingerprint_in_hex" "${bitcoind_untrusted_key_hashes[@]}"; then
         echo "Ignoring untrusted key."
     else
