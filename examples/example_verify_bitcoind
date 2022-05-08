@@ -56,6 +56,18 @@ download() {
 }
 
 
+# Checks if a value exists in array
+# Usage:
+#  containsElement $value "${array[@]}"
+# https://stackoverflow.com/a/8574392
+containsElement () {
+    local e match="$1"
+    shift
+    for e; do [[ "$e" == "$match" ]] && return 0; done
+    return 1
+}
+
+
 ## Download source code
 bitcoind_begin() {
     echo "${FUNCNAME[0]}: BEGIN"
@@ -156,7 +168,7 @@ bitcoind_check_output() {
     echo "${FUNCNAME[0]}: BEGIN"
 
     # Check if it is among our untrusted keys, if it is we just move on and dont count it either towards a failure or success:
-    if [[ " ${bitcoind_untrusted_key_hashes[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
+    if containsElement "$gpg_bash_lib_output_fingerprint_in_hex" "${bitcoind_untrusted_key_hashes[@]}"; then
         echo "Ignoring untrusted key."
     else
 
@@ -165,10 +177,10 @@ bitcoind_check_output() {
             echo "Signature by key $gpg_bash_lib_output_fingerprint_in_hex was validated OK"
 
             # Check if it is one of our trusted keys:
-            if [[ " ${bitcoind_trusted_key_hashes[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
+            if containsElement "$gpg_bash_lib_output_fingerprint_in_hex" "${bitcoind_trusted_key_hashes[@]}"; then
 
                 # Check that one key is not used to sign multiple times
-                if [[ ! " ${trusted_used[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
+                if ! containsElement "$gpg_bash_lib_output_fingerprint_in_hex" "${trusted_used[@]}"; then
                     echo "One of the trusted keys was verified."
                     trusted_used+=("$gpg_bash_lib_output_fingerprint_in_hex")
                     trusted=$((trusted+1))
@@ -179,7 +191,7 @@ bitcoind_check_output() {
             else
 
                 # Check that one key is not used to sign multiple times
-                if [[ ! " ${confirmed_used[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
+                if ! containsElement "$gpg_bash_lib_output_fingerprint_in_hex" "${confirmed_used[@]}"; then
                     echo "One of the normal keys was verified."
                     confirmed_used+=("$gpg_bash_lib_output_fingerprint_in_hex")
                     confirmed=$((confirmed+1))
@@ -203,7 +215,7 @@ bitcoind_decide() {
     for hash in "${bitcoind_trusted_key_hashes[@]}"
     do
         # And make sure that it exists in the array containing the verified hashes
-        if [[ ! " ${trusted_used[*]} " =~ " ${hash} " ]]; then
+        if ! containsElement "$hash" "${trusted_used[@]}"; then
             echo "Verification failed: One of the trusted signers keys ($hash) was not among the verified keys"
             exit 1
         fi
