@@ -10,7 +10,7 @@
 # that must also verify. You can also include keys
 
 # Settings
-bitcoind_version="23.0"
+bitcoind_version='23.0'
 bitcoind_folder="bitcoind-${bitcoind_version}"
 bitcoind_keys_folder="bitcoind-pub-keys"
 bitcoind_SHA256_file="${bitcoind_folder}/SHA256SUMS"
@@ -22,8 +22,8 @@ bitcoind_sig_file="${bitcoind_folder}/SHA256SUMS.asc"
 #   The script will ignore verifying keys listed in $bitcoind_untrusted_key_hashes
 #   From the remaining keys (all keys - trusted keys - untrusted keys) at least $bitcoind_min_confirm number
 #   of keys needs to check out
-bitcoind_trusted_key_hashes=( "152812300785C96444D3334D17565732E08E5E41" "D1DBF2C4B96F2DEBF4C16654410108112E7EA81F" "CFB16E21C950F67FA95E558F2EEB9F5CC09526C1" )
-bitcoind_untrusted_key_hashes=( "0CCBAAFD76A2ECE2CCD3141DE2FFD5B1D88CA97D" )
+bitcoind_trusted_key_hashes=('152812300785C96444D3334D17565732E08E5E41' 'D1DBF2C4B96F2DEBF4C16654410108112E7EA81F' 'CFB16E21C950F67FA95E558F2EEB9F5CC09526C1')
+bitcoind_untrusted_key_hashes=('0CCBAAFD76A2ECE2CCD3141DE2FFD5B1D88CA97D')
 bitcoind_min_confirm=4
 
 
@@ -65,7 +65,7 @@ bitcoind_begin() {
     chmod --recursive 700 $bitcoind_folder
     test -d $bitcoind_folder
 
-    echo "$FUNCNAME: Downloading source files"
+    echo "Downloading source files"
 
     download https://bitcoincore.org/bin/bitcoin-core-${bitcoind_version}/bitcoin-${bitcoind_version}-x86_64-linux-gnu.tar.gz \
         $bitcoind_folder \
@@ -80,7 +80,7 @@ bitcoind_begin() {
         SHA256SUMS.asc
 
 
-    echo "$FUNCNAME: Verifying archive checksum"
+    echo "Verifying archive checksum"
     (
     cd $bitcoind_folder || exit 1
     if ! sha256sum --status --ignore-missing --check SHA256SUMS; then
@@ -132,7 +132,7 @@ verify_signature() {
 
     # Save the output in a temporary signature file containing only one signature
     tmp_signature_file=$(mktemp /tmp/verify_bitcoind.XXXXXX)
-    echo "$2" > $tmp_signature_file
+    echo "$2" > "$tmp_signature_file"
 
     ## Set up gpg-bash
     gpg_bash_lib_input_key_import_dir=$bitcoind_keys_folder
@@ -170,7 +170,7 @@ bitcoind_check_output() {
                 # Check that one key is not used to sign multiple times
                 if [[ ! " ${trusted_used[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
                     echo "One of the trusted keys was verified."
-                    trusted_used+=($gpg_bash_lib_output_fingerprint_in_hex)
+                    trusted_used+=("$gpg_bash_lib_output_fingerprint_in_hex")
                     trusted=$((trusted+1))
                 else
                     echo "Verification failed: One of the trusted keys was used to sign multiple times."
@@ -181,7 +181,7 @@ bitcoind_check_output() {
                 # Check that one key is not used to sign multiple times
                 if [[ ! " ${confirmed_used[*]} " =~ " ${gpg_bash_lib_output_fingerprint_in_hex} " ]]; then
                     echo "One of the normal keys was verified."
-                    confirmed_used+=($gpg_bash_lib_output_fingerprint_in_hex)
+                    confirmed_used+=("$gpg_bash_lib_output_fingerprint_in_hex")
                     confirmed=$((confirmed+1))
                 else
                     echo "Verification failed: One of the trusted keys was used to sign multiple times."
@@ -211,7 +211,7 @@ bitcoind_decide() {
 
     if [ "$confirmed" -ge "$bitcoind_min_confirm" ]; then
 
-        not_verified=$(($total-confirmed-trusted))
+        not_verified=$((total-confirmed-trusted))
 
         # Loop through the trusted keys and verify that each of them were actually used in the verification
         echo "Verification successful"
