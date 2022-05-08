@@ -37,14 +37,14 @@ total=0
 
 # Downloads a file if it does not already exist, exits if the download fails
 # Usage:
-#  download URL FOLDERNAME FILENAME
+#  download URL FOLDER FILENAME
 download() {
     # Download source code (unless it already exists)
-    if [ ! -f $2/$3 ]; then
-        wget -q --https-only $1 --directory-prefix $2/
+    if [ ! -f "$2"/"$3" ]; then
+
 
         # check that the download succeeded
-        if [ $? -ne 0 ]; then
+        if ! wget -q --https-only "$1" --directory-prefix "$2"/; then
             echo "  Could not download $1"
             exit 1
         else
